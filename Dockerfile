@@ -3,7 +3,7 @@ FROM maven:3.5-jdk-8-slim
 MAINTAINER szss
 #设置时区
 ENV TZ Asia/Shanghai
-
+# 映射端口
 EXPOSE 8899
 
 ENV VERSION 2.1.5
