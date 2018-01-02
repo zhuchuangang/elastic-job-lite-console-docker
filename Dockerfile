@@ -7,8 +7,11 @@ ENV TZ Asia/Shanghai
 EXPOSE 8899
 
 ENV VERSION 2.1.5
-
 ENV CONSOLE_PATH elastic-job-lite-${VERSION}/elastic-job-lite/elastic-job-lite-console
+ENV ROOT_USERNAME root
+ENV ROOT_PASSWORD root
+ENV GUEST_USERNAME guest
+ENV GUEST_PASSWORD guest
 
 # 设置maven仓库
 RUN rm -rf /usr/share/maven/conf/settings.xml \
@@ -43,6 +46,12 @@ RUN rm -rf /usr/share/maven/conf/settings.xml \
 # 删除源码解压文件夹
     && rm -rf elastic-job-lite-${VERSION} \
 # 解压console
-    && tar -zxvf /elastic-job-lite-console-${VERSION}.tar.gz
+    && tar -zxvf /elastic-job-lite-console-${VERSION}.tar.gz \
+# 删除console压缩包
+    && rm -rf /elastic-job-lite-console-${VERSION}.tar.gz
 
-ENTRYPOINT elastic-job-lite-console-${VERSION}/bin/start.sh
+ADD entrypoint.sh entrypoint.sh
+
+RUN chmod a+x /entrypoint.sh
+
+ENTRYPOINT /entrypoint.sh
